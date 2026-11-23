@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
+import RoasteryBackdrop from "@/components/roastery-backdrop";
 
 type Item = { id: string; menuName: string; variant: string; quantity: number; subtotal: number };
 type Order = {
@@ -98,7 +99,9 @@ export default function AdminBoard() {
     { key: "SEMUA", label: "Semua", n: orders.length },
   ];
 
-  return <main className="min-h-screen bg-[#1A120D] text-[#F3E9DC]">
+  return <main className="relative min-h-screen text-[#F3E9DC]">
+    <RoasteryBackdrop />
+    <div className="pointer-events-none fixed inset-0 -z-10 bg-[#1A120D]/55" />
     <div className="h-1 bg-gradient-to-r from-[#7A4A22] via-[#C8924F] to-[#7A4A22]" />
     <header className="sticky top-0 z-30 border-b border-[#3A2A1F] bg-[#1A120D]/90 backdrop-blur">
       <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-5 py-4">
@@ -148,7 +151,7 @@ export default function AdminBoard() {
         : <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {shown.map(o => {
               const m = META[o.status], next = NEXT[o.status], isNew = fresh.has(o.id) && o.status === "PENDING";
-              return <article key={o.id} className={`relative overflow-hidden rounded-2xl border bg-[#241912] transition ${isNew ? "border-amber-400 shadow-[0_0_30px_-8px_rgba(251,191,36,.6)]" : "border-[#3A2A1F]"} ${o.status === "SELESAI" || o.status === "DIBATALKAN" ? "opacity-70" : ""}`}>
+              return <article key={o.id} className={`relative overflow-hidden rounded-2xl border bg-[#241912] transition ${isNew ? "border-amber-400 shadow-[0_0_30px_-8px_rgba(251,191,36,.6)]" : "border-[#3A2A1F]"} shadow-lg shadow-black/30 ${o.status === "SELESAI" || o.status === "DIBATALKAN" ? "opacity-70" : ""}`}>
                 <div className={`absolute inset-y-0 left-0 w-1.5 ${m.bar}`} />
                 <div className="p-5 pl-6">
                   <div className="flex items-start justify-between gap-3">

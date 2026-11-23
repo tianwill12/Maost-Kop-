@@ -1,0 +1,3 @@
+import {NextRequest,NextResponse} from "next/server";import {z} from "zod";import {isAdmin} from "@/lib/auth";import {prisma} from "@/lib/prisma";
+const schema=z.object({status:z.enum(["PENDING","DIPROSES","SIAP_DIAMBIL","SELESAI","DIBATALKAN"])});
+export async function PATCH(req:NextRequest,{params}:{params:Promise<{id:string}>}){if(!await isAdmin())return NextResponse.json({error:"Unauthorized"},{status:401});const p=schema.safeParse(await req.json());if(!p.success)return NextResponse.json({error:"Status tidak valid"},{status:400});const {id}=await params;const order=await prisma.order.update({where:{id},data:{status:p.data.status}});return NextResponse.json({order});}

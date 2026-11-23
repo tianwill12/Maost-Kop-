@@ -2,7 +2,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import CoffeeBackdrop from "@/components/coffee-backdrop";
+import GnomeBaristaBackdrop from "@/components/gnome-barista-backdrop";
 import { menuImage } from "@/lib/menu-image";
 
 type Menu = { id: string; name: string; price: number; category: string; description?: string | null; imageUrl?: string | null };
@@ -45,7 +45,7 @@ export default function Checkout() {
   }
 
   return <main className="relative min-h-screen pb-28 text-[#F3E9DC] lg:pb-16">
-    <CoffeeBackdrop />
+    <GnomeBaristaBackdrop />
     <div className="pointer-events-none fixed inset-0 -z-10 bg-[#1A120D]/70 lg:bg-transparent lg:bg-gradient-to-r lg:from-[#1A120D] lg:via-[#1A120D]/85 lg:to-[#1A120D]/20" />
 
     <header className="mx-auto flex max-w-6xl items-center justify-between px-5 py-5">
