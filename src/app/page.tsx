@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import { rupiah } from "@/lib/format";
+import { menuImage } from "@/lib/menu-image";
 
 export const dynamic = "force-dynamic";
 
@@ -18,14 +19,6 @@ const NAV = [
   { label: "Video", href: "#video" },
   { label: "Lokasi", href: "#lokasi" },
 ];
-
-/* Gambar menu: public/menu/<nama-menu>.svg */
-const MENU_IMAGES = new Set([
-  "americano", "long-black", "hazelnut-coffee-latte", "caramel-machiato",
-  "vanilla-coffee-latte", "coffee-brown-sugar", "maost-mocha", "choco-presso",
-]);
-const slug = (s: string) => s.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
-const menuImage = (name: string) => (MENU_IMAGES.has(slug(name)) ? `/menu/${slug(name)}.svg` : "/menu/americano.svg");
 
 /* Palet warna: espresso gelap + karamel */
 // latar #1A120D · kartu #241912 · garis #3A2A1F · krem #F3E9DC · karamel #C8924F · teks redup #B9A795
@@ -89,7 +82,7 @@ export default async function Home() {
           : <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {menus.map(m => <article key={m.id} className="group overflow-hidden rounded-2xl border border-[#3A2A1F] bg-[#241912] transition duration-300 hover:-translate-y-1 hover:border-[#C8924F]/60 hover:shadow-[0_10px_40px_-10px_rgba(200,146,79,.35)]">
                 <div className="relative aspect-square overflow-hidden">
-                  <Image src={menuImage(m.name)} alt={m.name} fill unoptimized className="object-cover transition duration-500 group-hover:scale-105" sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" />
+                  <Image src={menuImage(m.name, m.imageUrl)} alt={m.name} fill unoptimized className="object-cover transition duration-500 group-hover:scale-105" sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" />
                 </div>
                 <div className="p-5">
                   <p className="text-[10px] uppercase tracking-[.3em] text-[#C8924F]">{m.category}</p>

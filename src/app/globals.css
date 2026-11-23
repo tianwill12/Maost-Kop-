@@ -1,6 +1,57 @@
 @import "tailwindcss";
-:root { --cream:#FAF8F5; --espresso:#1C1917; --caramel:#B7793E; }
-* { box-sizing:border-box; }
-body { background:var(--cream); color:var(--espresso); }
-button, input, textarea, select { font:inherit; }
-::selection { background:#d6ad7b; color:#1c1917; }
+
+:root {
+  --espresso: #1A120D;
+  --card: #241912;
+  --line: #3A2A1F;
+  --cream: #F3E9DC;
+  --caramel: #C8924F;
+  --muted: #B9A795;
+}
+* { box-sizing: border-box; }
+body { background: var(--espresso); color: var(--cream); }
+button, input, textarea, select { font: inherit; }
+::selection { background: #C8924F; color: #1A120D; }
+input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(.85); }
+
+/* ===== Animasi latar pembuatan kopi (components/coffee-backdrop.tsx) ===== */
+.cb-stream, .cb-drop, .cb-liquid, .cb-pitcher, .cb-steam, .cb-bean { transform-box: fill-box; }
+
+.cb-shot { animation: cb-shot 9s ease-in-out infinite; }
+@keyframes cb-shot { 0%, 4% { opacity: 0 } 8%, 48% { opacity: 1 } 54%, 100% { opacity: 0 } }
+
+.cb-stream { transform-origin: top; animation: cb-flicker .35s ease-in-out infinite alternate; }
+@keyframes cb-flicker { from { transform: scaleX(.8) } to { transform: scaleX(1.15) } }
+
+.cb-drop { animation: cb-drop .9s linear infinite; }
+@keyframes cb-drop { from { transform: translateY(0); opacity: 1 } to { transform: translateY(190px); opacity: .2 } }
+
+.cb-liquid { animation: cb-liquid 9s ease-in-out infinite; }
+@keyframes cb-liquid {
+  0%, 5% { transform: translateY(115px); fill: #3B1F10; opacity: 1 }
+  50% { transform: translateY(62px); fill: #4A2814 }
+  58% { transform: translateY(60px); fill: #5A341A }
+  85% { transform: translateY(14px); fill: #B08458 }
+  93% { transform: translateY(14px); fill: #B08458; opacity: 1 }
+  100% { transform: translateY(14px); fill: #B08458; opacity: 0 }
+}
+
+.cb-pitcher { transform-origin: right bottom; animation: cb-pitcher 9s ease-in-out infinite; }
+@keyframes cb-pitcher { 0%, 55% { transform: rotate(0) } 62%, 82% { transform: rotate(-38deg) } 89%, 100% { transform: rotate(0) } }
+
+.cb-milk { opacity: 0; animation: cb-milk 9s ease-in-out infinite; }
+@keyframes cb-milk { 0%, 61% { opacity: 0 } 64%, 81% { opacity: .95 } 85%, 100% { opacity: 0 } }
+
+.cb-steam { opacity: 0; animation: cb-steam 3.2s ease-in-out infinite; }
+@keyframes cb-steam { 0% { opacity: 0; transform: translateY(12px) } 40% { opacity: .45 } 100% { opacity: 0; transform: translateY(-36px) } }
+
+.cb-bean { animation: cb-bean 8s ease-in-out infinite alternate; }
+@keyframes cb-bean { from { transform: translateY(-14px) rotate(-10deg) } to { transform: translateY(14px) rotate(14deg) } }
+
+.cb-led { animation: cb-led 1.6s ease-in-out infinite alternate; }
+@keyframes cb-led { from { opacity: .35 } to { opacity: 1 } }
+
+@media (prefers-reduced-motion: reduce) {
+  .cb-anim * { animation: none !important; }
+  .cb-liquid { transform: translateY(14px); fill: #B08458; }
+}
