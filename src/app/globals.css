@@ -1,0 +1,6 @@
+@import "tailwindcss";
+:root { --cream:#FAF8F5; --espresso:#1C1917; --caramel:#B7793E; }
+* { box-sizing:border-box; }
+body { background:var(--cream); color:var(--espresso); }
+button, input, textarea, select { font:inherit; }
+::selection { background:#d6ad7b; color:#1c1917; }

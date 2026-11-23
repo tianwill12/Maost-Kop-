@@ -1,0 +1,84 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum OrderStatus {
+  PENDING
+  DIPROSES
+  SIAP_DIAMBIL
+  SELESAI
+  DIBATALKAN
+}
+
+enum FulfillmentType {
+  PICKUP
+  DELIVERY
+}
+
+enum PaymentMethod {
+  QRIS_TRANSFER
+  CASHIER
+}
+
+enum PaymentStatus {
+  UNPAID
+  PENDING
+  PAID
+  FAILED
+}
+
+model Menu {
+  id          String      @id @default(cuid())
+  name        String
+  description String?
+  price       Int
+  imageUrl    String?
+  category    String      @default("Coffee")
+  available   Boolean     @default(true)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  orderItems  OrderItem[]
+  @@map("menus")
+}
+
+model Order {
+  id              String           @id @default(cuid())
+  orderCode       String           @unique
+  customerName    String
+  whatsapp        String
+  note            String?
+  fulfillment     FulfillmentType
+  pickupTime      String?
+  deliveryAddress String?
+  paymentMethod   PaymentMethod
+  paymentStatus   PaymentStatus    @default(UNPAID)
+  status          OrderStatus      @default(PENDING)
+  subtotal        Int
+  deliveryFee     Int              @default(0)
+  total           Int
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  items           OrderItem[]
+  @@index([createdAt])
+  @@index([status])
+  @@map("orders")
+}
+
+model OrderItem {
+  id        String   @id @default(cuid())
+  orderId   String
+  menuId    String
+  menuName  String
+  variant   String
+  quantity  Int
+  unitPrice Int
+  subtotal  Int
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  menu      Menu     @relation(fields: [menuId], references: [id])
+  @@map("order_items")
+}
